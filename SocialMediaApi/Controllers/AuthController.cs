@@ -18,21 +18,22 @@ namespace SocialMediaApi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto request)
+        public async Task<IActionResult> Register(RegisterDto request)
         {
-            try
-            {
-                var result = await _authService.Register(request);
+            var result = await _authService.Register(request);
+            return result == "Kayıt başarılı!" ? Ok(result) : BadRequest(result);
+        }
 
-                if (result == "Bu email zaten kayıtlı!")
-                    return BadRequest(result);
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto request)
+        {
+            var result = await _authService.Login(request.Email, request.Password);
 
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            // Eğer sonuç bir hata mesajıysa (Token değilse)
+            if (result == "Kullanıcı bulunamadı!" || result == "Hatalı şifre!")
+                return BadRequest(result);
+
+            return Ok(new { token = result }); // Token'ı bir obje içinde dönmek daha şıktır
         }
     }
 }
