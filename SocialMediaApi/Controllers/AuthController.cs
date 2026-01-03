@@ -29,11 +29,10 @@ namespace SocialMediaApi.Controllers
         {
             var result = await _authService.Login(request.Email, request.Password);
 
-            // Eğer sonuç bir hata mesajıysa (Token değilse)
             if (result == "Kullanıcı bulunamadı!" || result == "Hatalı şifre!")
                 return BadRequest(result);
 
-            return Ok(new { token = result }); // Token'ı bir obje içinde dönmek daha şıktır
+            return Ok(new { token = result }); 
         }
     }
 }
