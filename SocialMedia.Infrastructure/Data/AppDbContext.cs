@@ -52,6 +52,12 @@ namespace SocialMedia.Infrastructure.Data
                 .WithMany(u => u.Followers)
                 .HasForeignKey(f => f.FollowingId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Follow>()
+                .Property(f => f.FollowDate)
+                .HasColumnType("date");
+            modelBuilder.Entity<User>()
+                .Property(f=>f.CreatedAt)
+                .HasColumnType("date");
         }
     }
 }

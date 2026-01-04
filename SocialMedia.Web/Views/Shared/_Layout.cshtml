@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SocialMedia - App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+        }
+        /* Sidebar Tasarımı */
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #fff;
+            border-right: 1px solid #dbdbdb;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding-left: 10px;
+            color: #262626;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            color: #262626;
+            font-size: 16px;
+            padding: 12px 10px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+            .nav-link:hover {
+                background-color: #f2f2f2;
+                color: #000;
+            }
+
+            .nav-link i {
+                font-size: 24px;
+                margin-right: 15px;
+                vertical-align: middle;
+            }
+        /* Ana İçerik Alanı */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+        /* Mobil Uyumluluk */
+        @@media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 5px;
+            }
+
+            .sidebar-brand, .link-text {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .nav-link i {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a href="/" class="sidebar-brand">SocialApp</a>
+
+        <nav class="nav flex-column h-100">
+            <a class="nav-link active" asp-controller="Post" asp-action="Index">
+                <i class="bi bi-house-door-fill"></i> <span class="link-text">Ana Sayfa</span>
+            </a>
+            <a class="nav-link" href="#">
+                <i class="bi bi-search"></i> <span class="link-text">Ara</span>
+            </a>
+            <a class="nav-link" href="#">
+                <i class="bi bi-compass"></i> <span class="link-text">Keşfet</span>
+            </a>
+            <a class="nav-link" asp-controller="Post" asp-action="Create">
+                <i class="bi bi-plus-square"></i> <span class="link-text">Oluştur</span>
+            </a>
+            <a class="nav-link" href="#">
+                <i class="bi bi-person-circle"></i> <span class="link-text">Profil</span>
+            </a>
+
+            <div class="mt-auto">
+                <a class="nav-link" asp-controller="Auth" asp-action="Logout">
+                    <i class="bi bi-box-arrow-right"></i> <span class="link-text">Çıkış Yap</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,77 @@
+﻿@model List<PostResponseDto>
+@{
+    ViewData["Title"] = "Akış";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Giriş yapmış kullanıcının adını Cookie'den veya Claim'den almalısın
+    var currentUserName = User.Identity.Name;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var post in Model)
+            {
+                <div class="post-item p-3 border-bottom bg-white shadow-sm mb-2" style="transition: background 0.2s; border-radius: 8px;">
+                    <div class="d-flex">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center border" style="min-width: 48px; height: 48px;">
+                            <i class="bi bi-person text-secondary fs-4"></i>
+                        </div>
+
+                        <div class="ms-3 w-100">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <span class="fw-bold text-dark me-1">@post.UserName</span>
+                                    <span class="text-muted small">@@@post.UserName.ToLower() · @post.CreatedAt.ToString("dd MMM")</span>
+                                </div>
+
+                                @if (post.UserName == currentUserName)
+                                {
+                                    <button class="btn btn-sm text-danger p-0 border-0" onclick="deletePost(@post.PostId)">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                }
+                            </div>
+
+                            <div class="mt-2 text-dark" style="font-size: 1rem; line-height: 1.5;">
+                                @post.Content
+                            </div>
+
+                            <div class="d-flex align-items-center mt-3">
+                                <button class="btn btn-sm btn-link text-muted p-0 me-4 text-decoration-none d-flex align-items-center btn-like" onclick="likePost(@post.PostId, this)">
+                                    <i class="bi bi-heart me-2"></i>
+                                    <span id="like-count-@post.PostId">@post.LikeCount</span>
+                                </button>
+
+                                <button class="btn btn-sm btn-link text-muted p-0 text-decoration-none d-flex align-items-center">
+                                    <i class="bi bi-chat me-2"></i>
+                                    <span>0</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-center mt-5">
+                <p class="text-muted">Burada henüz bir şey yok...</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .post-item:hover {
+        background-color: #f8f9fa !important;
+    }
+
+    .btn-like:hover {
+        color: #dc3545 !important;
+    }
+
+    .btn-like i:hover {
+        transform: scale(1.2);
+    }
+</style>
